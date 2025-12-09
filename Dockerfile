@@ -9,5 +9,5 @@ COPY src/ ./src/
 
 EXPOSE 3310
 
-# Use gunicorn for production-ready serving on port 3310
+# Use gunicorn for production-ready serving on port 3310 ...
 CMD ["gunicorn", "--bind", "0.0.0.0:3310", "--chdir", "src", "app:app"]
