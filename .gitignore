@@ -108,3 +108,5 @@ dmypy.json
 *.swp
 *.swo
 *~
+
+src/__pycache__/

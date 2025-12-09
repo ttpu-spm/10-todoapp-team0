@@ -1,8 +1,12 @@
-# Todo App
-# Main application file
+from flask import Flask, render_template
+import os
 
-def main():
-    print("Todo App")
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 if __name__ == "__main__":
-    main()
+    # For development only
+    app.run(debug=True, host='0.0.0.0', port=3310)

@@ -1,6 +1,27 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/y85avHnH)
 # Software Project Management – Continuous Deployment Template
 
+## How to run without Container:
+
+Run following commands in bash:
+```bash
+source venv/bin/activate
+python src/app.py
+```
+
+To Run in production:
+```bash
+source venv/bin/activate
+gunicorn --bind 0.0.0.0:3310 --chdir src app:app
+
+# OR in the foreground
+source venv/bin/activate && gunicorn --bind 0.0.0.0:3310 --chdir src app:app
+
+# Kill any background:
+ps aux | grep gunicorn
+pkill -f gunicorn
+```
+
 ## Overview
 
 This repository is a **teaching template** for a 1–2 week student project in a **Software Project Management** course. It is designed for teams of up to 3 students to learn and practice:
