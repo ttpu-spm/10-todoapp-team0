@@ -5,7 +5,7 @@ services:
     build: .
     container_name: todoapp
     ports:
-      - "5000:5000"
+      - "3310:3310"
     volumes:
       - ./src:/app/src
     environment:
