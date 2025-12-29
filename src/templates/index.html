@@ -4,8 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo App</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 2rem auto; padding: 0 1rem; }
+        .todo-item { display: flex; align-items: center; margin-bottom: 0.5rem; padding: 0.5rem; border-bottom: 1px solid #eee; }
+        .completed { text-decoration: line-through; color: #888; }
+        .filters { margin-bottom: 1rem; }
+        .filters a { margin-right: 0.5rem; text-decoration: none; color: blue; }
+        .filters a.active { font-weight: bold; color: black; text-decoration: underline; }
+        form { display: inline; }
+        .actions { margin-left: auto; }
+        .actions a, .actions button { margin-left: 0.5rem; cursor: pointer; }
+        .edit-form { display: none; margin-left: 0.5rem; }
+    </style>
 </head>
 <body>
-    <h1>Hello World</h1>
+    <h1>Todo App</h1>
+
+    <form action="/add" method="POST" style="display: block; margin-bottom: 1rem;">
+        <input type="text" name="content" placeholder="New todo..." required style="padding: 0.5rem; width: 70%;">
+        <button type="submit" style="padding: 0.5rem;">Add</button>
+    </form>
+
+    <div class="filters">
+        <a href="/?filter=all" class="{{ 'active' if filter == 'all' else '' }}">All</a>
+        <a href="/?filter=active" class="{{ 'active' if filter == 'active' else '' }}">Active</a>
+        <a href="/?filter=completed" class="{{ 'active' if filter == 'completed' else '' }}">Completed</a>
+    </div>
+
+    <ul style="list-style: none; padding: 0;">
+        {% for todo in todos %}
+        <li class="todo-item">
+            <span class="{{ 'completed' if todo.completed else '' }}" id="todo-content-{{ todo.id }}">
+                {{ todo.content }}
+            </span>
+            
+            <form id="edit-form-{{ todo.id }}" class="edit-form" action="/edit/{{ todo.id }}" method="POST">
+                <input type="text" name="content" value="{{ todo.content }}">
+                <button type="submit">Save</button>
+                <button type="button" onclick="cancelEdit({{ todo.id }})">Cancel</button>
+            </form>
+
+            <div class="actions" id="actions-{{ todo.id }}">
+                <a href="/toggle/{{ todo.id }}">{{ 'Undo' if todo.completed else 'Complete' }}</a>
+                <button onclick="enableEdit({{ todo.id }})">Edit</button>
+                <a href="/delete/{{ todo.id }}" onclick="return confirm('Are you sure?')" style="color: red;">Delete</a>
+            </div>
+        </li>
+        {% else %}
+        <li>No todos found.</li>
+        {% endfor %}
+    </ul>
+
+    <script>
+        function enableEdit(id) {
+            document.getElementById('edit-form-' + id).style.display = 'inline-block';
+            document.getElementById('todo-content-' + id).style.display = 'none';
+            document.getElementById('actions-' + id).style.display = 'none';
+        }
+
+        function cancelEdit(id) {
+            document.getElementById('edit-form-' + id).style.display = 'none';
+            document.getElementById('todo-content-' + id).style.display = 'inline';
+            document.getElementById('actions-' + id).style.display = 'block'; // Changed to block/flex depending on CSS, but block is safe for div
+            document.getElementById('actions-' + id).style.display = ''; // Reset to default (flex via CSS class if applicable, or block)
+        }
+    </script>
 </body>
 </html>
