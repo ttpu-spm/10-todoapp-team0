@@ -3,9 +3,9 @@ version: '3.8'
 services:
   app:
     build: .
-    container_name: todoapp
+    container_name: todoapp-muzaffarov
     ports:
-      - "3310:3310"
+      - "3314:3310"
     volumes:
       - ./src:/app/src
     environment:
