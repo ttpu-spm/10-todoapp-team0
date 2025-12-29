@@ -10,4 +10,3 @@ services:
       - ./src:/app/src
     environment:
       - FLASK_ENV=development
-#aad
